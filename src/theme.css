@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap');
+
+:root {
+  --bg: #FCFAF7;
+  --champagne: #F7F2EB;
+  --sand: #F3EEE6;
+  --stone: #EEE7DE;
+  --surface: #FEFDFB;
+  --surface-sunk: #F6F0E6;
+  --surface-alt: #FEFDFB;
+  --border: #E7DFD0;
+  --border-strong: #D9CDB6;
+  --text-1: #201C16;
+  --text-2: #5B564C;
+  --text-3: #948C7C;
+  --accent: #E87817;
+  --accent-dark: #BE600F;
+  --accent-tint: #FBEBDD;
+  --accent-tint-2: #F5D6B4;
+  --on-accent: #FFFFFF;
+  --steel: #5B7C99;
+  --steel-tint: #E8EEF2;
+  --steel-tint-2: #D9E4EB;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Montserrat', sans-serif;
+
+  --cream: var(--champagne);
+  --white: #FFFFFF;
+  --off-white: var(--surface);
+  --orange: var(--accent);
+  --orange-dark: var(--accent-dark);
+  --text: var(--text-1);
+  --text-muted: var(--text-2);
+  --text-dim: var(--text-3);
+  --blue-dark: var(--steel);
+  --blue-brand: var(--steel);
+  --blue-light: var(--steel-tint);
+  --blue-400: var(--steel);
+  --blue-500: var(--steel);
+  --gray-600: var(--text-2);
+}
+
+:root,
+html,
+body,
+#root {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text-2);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+body,
+body * {
+  font-family: var(--font-body) !important;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+[class*="title"],
+[class*="heading"],
+[class*="eyebrow"],
+[class*="hero-title"],
+[class*="section-title"],
+[class*="bro-title"],
+[class*="faq-title"],
+[class*="sol-header-title"],
+[class*="app-hero-title"],
+[class*="media-title"],
+[class*="ct-hero-title"] {
+  font-family: var(--font-display) !important;
+  color: var(--text-1) !important;
+}
+
+p,
+span,
+a,
+li,
+button,
+input,
+textarea,
+select,
+option,
+label,
+td,
+th,
+div {
+  font-family: inherit;
+  color: inherit;
+}
+
+.theme {
+  color: var(--text-2);
+  background-color: var(--bg);
+}

@@ -1,0 +1,361 @@
+﻿// src/data/products.js
+// Full product catalogue with industrial specifications
+
+const APPLICATION_TAGS = [
+  { keyword: "namkeen", tag: "Namkeen" },
+  { keyword: "snacks",  tag: "Snacks"  },
+  { keyword: "spices",  tag: "Spices"  },
+  { keyword: "powder",  tag: "Powder"  },
+  { keyword: "grain",   tag: "Grains"  },
+  { keyword: "seeds",   tag: "Grains"  },
+  { keyword: "rice",    tag: "Grains"  },
+  { keyword: "masala",  tag: "Spices"  },
+  { keyword: "flour",   tag: "Powder"  },
+  { keyword: "chips",   tag: "Snacks"  },
+  { keyword: "nut",     tag: "Snacks"  },
+];
+
+const parseApplications = (value = "") => {
+  const source = String(value).toLowerCase();
+  const found = new Set();
+  APPLICATION_TAGS.forEach(({ keyword, tag }) => {
+    if (source.includes(keyword)) found.add(tag);
+  });
+  return Array.from(found);
+};
+
+const productImageName = (name) => {
+  const normalized = name.replace(/ /g, "_");
+  if (normalized === "Packaging_Machine.png") return "Packaging_Machine__2_.png";
+  if (normalized === "Sealing_Machine.png") return "Sealing_Machine__2_.png";
+  return normalized;
+};
+
+const deriveCategory = (product) => {
+  const type = product?.specs?.["Machine Type"]?.toLowerCase() || "";
+  if (/weigh|fill|vffs|pouch|auger/.test(type)) return "Filling & Packaging";
+  if (/seal|vacuum|shrink|band/.test(type))      return "Sealing";
+  if (/label|print|coder|inkjet|tablet/.test(type)) return "Labelling & Coding";
+  if (/processor|slicer|cleaner|grinder|destoner|slicing/.test(type)) return "Processing";
+  return "Industrial Equipment";
+};
+
+const RAW_PRODUCTS = [
+  {
+    name: "Collar Type VFFS Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Collar Type VFFS Machine.png`,
+    shortDesc: "Vertical Form-Fill-Seal with collar former for free-flow powders, granules & seeds.",
+    specs: {
+      "Machine Type":     "Collar Type Vertical Form Fill Seal (VFFS)",
+      "Material":         "SS 304 contact parts, MS frame",
+      "Automation Grade": "Fully Automatic",
+      "Power Source":     "Electric",
+      "Voltage":          "380V / 50 Hz, Three Phase",
+      "Motor Power":      "2.5 HP",
+      "Pouch Size":       "50 g â€“ 5 kg",
+      "Speed":            "20â€“40 pouches/min",
+      "Sealing Type":     "Horizontal + Vertical fin seal (heat seal)",
+      "Filling System":   "Auger / Cup / Weigh filler (optional)",
+      "Application":      "Spices, flour, grains, seeds, coffee, tea",
+      "Warranty":         "1 Year",
+    },
+  },
+  {
+    name: "Food Processing Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Weight Filter With Conveying System.png`,
+    shortDesc: "Multi-function food processing unit for cutting, mixing and pre-processing applications.",
+    specs: {
+      "Machine Type":     "Multi-function Food Processor",
+      "Material":         "Stainless Steel SS 304 (all food-contact parts)",
+      "Automation Grade": "Semi-Automatic",
+      "Power Source":     "Electric",
+      "Voltage":          "220Vâ€“440V / 50 Hz",
+      "Motor Power":      "1â€“5 HP (model dependent)",
+      "Capacity":         "100â€“500 kg/hr",
+      "Functions":        "Slicing, dicing, grinding, mixing",
+      "Application":      "Vegetables, fruits, snacks, bakery, namkeen, food factories",
+      "Compliance":       "Food-grade, ISO-compliant",
+      "Frame":            "Heavy-duty SS tubular frame",
+      "Warranty":         "1 Year",
+    },
+  },
+  
+  {
+    name: "Labelling Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Labelling Machine.png`,
+    shortDesc: "High-speed self-adhesive labeller for accurate front/back and wraparound label placement.",
+    specs: {
+      "Machine Type":       "Self-Adhesive Pressure Sensitive Labelling Machine",
+      "Material":           "SS 304 & powder-coated MS",
+      "Automation Grade":   "Fully Automatic",
+      "Power Source":       "Electric",
+      "Voltage":            "220V / 50 Hz, Single Phase",
+      "Motor Power":        "0.5 HP (AC servo)",
+      "Labelling Speed":    "40â€“120 bottles/min",
+      "Label Size":         "W: 10â€“150 mm, L: 20â€“350 mm",
+      "Container Diameter": "20â€“120 mm",
+      "Accuracy":           "Â± 0.5 mm",
+      "Application":        "Bottles, jars, spices, masala, food, cosmetics â€” pharma, namkeen pouches",
+      "Warranty":           "1 Year",
+    },
+  },
+  {
+    name: "Liquid Filling Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Liquid Filling Machine .png`,
+    shortDesc: "High-precision volumetric piston filling for liquids, edible oils, syrups and chemicals.",
+    specs: {
+      "Machine Type":         "Volumetric Piston Liquid Filling Machine",
+      "Material":             "SS 316 contact parts, SS 304 frame",
+      "Automation Grade":     "Semi-Automatic / Automatic",
+      "Power Source":         "Electric + Pneumatic",
+      "Voltage":              "220V / 50 Hz, Single Phase",
+      "Air Pressure":         "0.4â€“0.6 MPa",
+      "Filling Range":        "50 ml â€“ 5,000 ml",
+      "Filling Accuracy":     "Â± 0.5%",
+      "No. of Filling Heads": "1 â€“ 6 (configurable)",
+      "Speed":                "20â€“60 fills/min",
+      "Application":          "Edible oil, water, syrup, shampoo, disinfectant, pharma liquids",
+      "Warranty":             "1 Year",
+    },
+  },
+  {
+    name: "Nitrogen Flushing Machine",
+    image: `${import.meta.env.BASE_URL}Machines/DZ-600-External-Vaccum-SS.png`,
+    shortDesc: "MAP sealing unit with nitrogen/gas flushing to extend shelf life and maintain freshness.",
+    specs: {
+      "Machine Type":   "Nitrogen Flushing & Sealing Machine",
+      "Material":       "SS 304",
+      "Automation Grade": "Semi-Automatic",
+      "Power Source":   "Electric + Gas supply (Nâ‚‚ / COâ‚‚)",
+      "Voltage":        "220V / 50 Hz, Single Phase",
+      "Sealing Width":  "Up to 12 mm",
+      "Gas Pressure":   "0.1â€“0.3 MPa",
+      "Gas Residual Oâ‚‚":"< 1% (after flush)",
+      "Speed":          "10â€“25 packs/min",
+      "Application":    "Chips, nuts, snacks, biscuits, namkeen, cheese, coffee, pharma â€” MAP packaging",
+      "Bag Type":       "Flat/pillow/gusset pouches",
+      "Warranty":       "1 Year",
+    },
+  },
+  {
+    name: "Packaging Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Multi-Head VFFS Packaging Machine.png`,
+    shortDesc: "Multi-purpose automatic packaging machine for powders, granules and free-flow materials.",
+    specs: {
+      "Machine Type":     "Automatic Packaging Machine (Auger Filler + VFFS)",
+      "Material":         "SS 304 food-grade contact parts",
+      "Automation Grade": "Fully Automatic",
+      "Power Source":     "Electric",
+      "Voltage":          "380V / 50 Hz, Three Phase",
+      "Motor Power":      "3 HP",
+      "Pouch Weight Range": "50 g â€“ 2 kg",
+      "Speed":            "25â€“50 pouches/min",
+      "Sealing Type":     "Heat seal, back/fin seal",
+      "Application":      "Atta flour, masala spices, salt, sugar, coffee, rice grains, namkeen",
+      "HMI Control":      "PLC + Touchscreen",
+      "Warranty":         "1 Year",
+    },
+  },
+  {
+    name: "Packing Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Smart PAC Bagger.png`,
+    shortDesc: "Compact semi-auto packing solution suited for small to mid-scale production facilities.",
+    specs: {
+      "Machine Type":     "Semi-Automatic Granule / Powder Packing Machine",
+      "Material":         "MS powder-coated body, SS 304 contact parts",
+      "Automation Grade": "Semi-Automatic",
+      "Power Source":     "Electric",
+      "Voltage":          "220V / 50 Hz, Single Phase",
+      "Motor Power":      "1.5 HP",
+      "Pack Weight":      "100 g â€“ 5 kg",
+      "Speed":            "8â€“20 pouches/min",
+      "Sealing":          "Impulse heat sealing",
+      "Application":      "Spices, pulses, seeds grain, detergent, namkeen, chemical powders",
+      "Frame":            "Mild steel, heavy-duty",
+      "Warranty":         "1 Year",
+    },
+  },
+  {
+    name: "Pouch Packaging Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Pick Fill seal Machine.png`,
+    shortDesc: "Pre-made pouch fill-seal machine for snacks, namkeen, seeds and small granules.",
+    specs: {
+      "Machine Type":     "Pre-made Pouch Fill & Seal Machine",
+      "Material":         "SS 304 & anodised aluminium",
+      "Automation Grade": "Fully Automatic",
+      "Power Source":     "Electric + Pneumatic",
+      "Voltage":          "220V / 50 Hz, Single Phase",
+      "Air Pressure":     "0.5â€“0.7 MPa",
+      "Pouch Size":       "60Ã—80 mm â€“ 250Ã—350 mm",
+      "Speed":            "15â€“40 pouches/min",
+      "Weighing System":  "Multi-head combination weigher (optional)",
+      "Application":      "Namkeen, chips, popcorn, snacks, seeds grain, candy, frozen foods",
+      "Pouch Types":      "Pillow, gusset, stand-up zipper",
+      "Warranty":         "1 Year",
+    },
+  },
+  {
+    name: "Powder Packaging Machine",
+    image: `${import.meta.env.BASE_URL}Machines/VFFS Auger Filter Machine.png`,
+    shortDesc: "Dedicated auger-fill system for fine, free-flowing and non-free-flowing powders.",
+    specs: {
+      "Machine Type":     "Auger Filler Powder Packaging Machine",
+      "Material":         "SS 316 auger & hopper, SS 304 frame",
+      "Automation Grade": "Fully Automatic",
+      "Power Source":     "Electric",
+      "Voltage":          "380V / 50 Hz, Three Phase",
+      "Motor Power":      "2.5 HP",
+      "Filling Range":    "10 g â€“ 3 kg",
+      "Filling Accuracy": "Â± 1â€“2%",
+      "Speed":            "20â€“60 pouches/min",
+      "Application":      "Masala spices, chilli powder, turmeric, flour powder, protein powder, cement additives",
+      "Sealing Type":     "Back / fin seal (heat seal)",
+      "Warranty":         "1 Year",
+    },
+  },
+  {
+    name: "Rice Destoner Cleaning Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Weight Filter With Conveying System.png`,
+    shortDesc: "Gravity separator that effectively removes stones, pebbles and heavy impurities from grain.",
+    specs: {
+      "Machine Type":       "Gravity Rice Destoner / Grain Cleaner",
+      "Material":           "Mild Steel with SS mesh screens",
+      "Automation Grade":   "Automatic",
+      "Power Source":       "Electric",
+      "Voltage":            "220Vâ€“440V / 50 Hz",
+      "Motor Power":        "0.75â€“1.5 HP",
+      "Capacity":           "500 kg â€“ 3,000 kg/hr",
+      "Cleaning Efficiency":"> 98% stone removal",
+      "Screen Size":        "Adjustable mesh sizes",
+      "Application":        "Rice grain, wheat grain, maize, dal, sesame seeds, sunflower seeds",
+      "Frame":              "Heavy-duty welded MS",
+      "Warranty":           "1 Year",
+    },
+  },
+  
+  {
+    name: "Sealing Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Pick Fill seal Machine.png`,
+    shortDesc: "Continuous band sealer for fast, consistent and airtight closure of all pouch types.",
+    specs: {
+      "Machine Type":      "Continuous Band Sealing Machine",
+      "Material":          "MS body, SS 304 seal area",
+      "Automation Grade":  "Automatic (continuous)",
+      "Power Source":      "Electric",
+      "Voltage":           "220V / 50 Hz, Single Phase",
+      "Motor Power":       "180 W",
+      "Sealing Width":     "6 mm / 10 mm",
+      "Sealing Speed":     "0â€“12 m/min (variable)",
+      "Temperature Range": "0â€“300Â°C (digital control)",
+      "Bag Type":          "All laminated films, PE, PP, foil, BOPP",
+      "Application":       "Namkeen, spices, food, pharma, chemical, FMCG pouches, snacks",
+      "Warranty":          "1 Year",
+    },
+  },
+  {
+    name: "Seeds Packaging Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Collar Type VFFS Machine.png`,
+    shortDesc: "Precision weigher-filler engineered for vegetable seeds, spice seeds and agricultural inputs.",
+    specs: {
+      "Machine Type":     "Automatic Seeds Weighing & Packaging Machine",
+      "Material":         "SS 304 hopper & contact parts",
+      "Automation Grade": "Fully Automatic",
+      "Power Source":     "Electric",
+      "Voltage":          "220V / 50 Hz, Single Phase",
+      "Motor Power":      "1.5 HP",
+      "Pack Weight":      "5 g â€“ 500 g",
+      "Weighing Accuracy":"Â± 0.5 g",
+      "Speed":            "25â€“50 packs/min",
+      "Application":      "Vegetable seeds, spice seeds grain, agricultural seed sachets",
+      "Sealing":          "Heat seal (fin / back seal)",
+      "Warranty":         "1 Year",
+    },
+  },
+  {
+    name: "Shrink Tunnel Packaging Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Multi-Head VFFS Packaging Machine.png`,
+    shortDesc: "Conveyor-fed heat-shrink tunnel providing tamper-evident, tightly-wrapped bundle packaging.",
+    specs: {
+      "Machine Type":      "Hot Air Shrink Tunnel",
+      "Material":          "SS 304 inner chamber, MS outer body",
+      "Automation Grade":  "Automatic (inline conveyor)",
+      "Power Source":      "Electric",
+      "Voltage":           "380V / 50 Hz, Three Phase",
+      "Motor Power":       "1.5 HP",
+      "Tunnel Dimensions": "W: 400â€“600 mm, H: 150â€“250 mm",
+      "Temperature Range": "90Â°C â€“ 200Â°C",
+      "Belt Speed":        "0â€“10 m/min (variable)",
+      "Film Type":         "PVC, POF, PE shrink film",
+      "Application":       "Bottles, cans, multipacks, snacks, biscuits, electronics",
+      "Warranty":          "1 Year",
+    },
+  },
+  {
+    name: "Strapping Machine",
+    image: `${import.meta.env.BASE_URL}Machines/Multi-Head VFFS Packaging Machine.png`,
+    shortDesc: "Automatic PET/PP strapping machine for secure carton and bundle unitising at high throughput.",
+    specs: {
+      "Machine Type":    "Automatic Table-top / Arch Strapping Machine",
+      "Material":        "MS powder-coated frame, SS wear parts",
+      "Automation Grade":"Fully Automatic",
+      "Power Source":    "Electric",
+      "Voltage":         "220V / 50 Hz, Single Phase",
+      "Motor Power":     "750 W",
+      "Strap Width":     "9 mm / 12 mm / 15 mm",
+      "Strap Material":  "PP / PET",
+      "Strapping Speed": "1.5â€“2.5 sec/strap",
+      "Table Height":    "750 mm (standard)",
+      "Application":     "Cartons, newspapers, corrugated boxes, bundled products, namkeen cartons, snacks boxes",
+      "Warranty":        "1 Year",
+    },
+  },
+  {
+    name: "Vacuum Packaging Machine",
+    image: `${import.meta.env.BASE_URL}Machines/DZ-600-External-Vaccum-SS.png`,
+    shortDesc: "Chamber-type vacuum sealer for extended shelf life across food and pharmaceutical products.",
+    specs: {
+      "Machine Type":     "Double-Chamber Vacuum Packaging Machine",
+      "Material":         "SS 304 full body",
+      "Automation Grade": "Automatic (cycle-based)",
+      "Power Source":     "Electric",
+      "Voltage":          "220Vâ€“380V / 50 Hz",
+      "Vacuum Pump Power":"0.37â€“0.75 kW",
+      "Vacuum Degree":    "â€“0.098 MPa",
+      "Chamber Size":     "400Ã—500 mm (standard)",
+      "Sealing Bar":      "2 Ã— 400 mm",
+      "Cycle Time":       "20â€“40 sec",
+      "Application":      "Meat, cheese, seafood, pickles, nuts snacks, namkeen, pharma items",
+      "Warranty":         "1 Year",
+    },
+  },
+  {
+    name: "Wrapping Machine",
+    image: `${import.meta.env.BASE_URL}Machines/VFFS 1014 Head Machine.png`,
+    shortDesc: "Horizontal flow-wrap machine for biscuits, soaps, bars and flat rectangular products.",
+    specs: {
+      "Machine Type":     "Horizontal Flow Wrapping Machine (HFFS)",
+      "Material":         "SS 304 contact parts, painted MS frame",
+      "Automation Grade": "Fully Automatic",
+      "Power Source":     "Electric",
+      "Voltage":          "220V / 50 Hz, Single Phase",
+      "Motor Power":      "2 HP (servo-driven)",
+      "Wrap Speed":       "60â€“200 packs/min",
+      "Pack Size":        "L: 60â€“380 mm, W: 30â€“180 mm, H: 10â€“80 mm",
+      "Film Type":        "BOPP, CPP, PVC, laminated film",
+      "Sealing Type":     "Fin seal + end seal (heat)",
+      "Application":      "Biscuits snacks, bread, soap bars, energy bars, namkeen, sanitary pads",
+      "Warranty":         "1 Year",
+    },
+  },
+];
+
+export const products = RAW_PRODUCTS.map((product) => ({
+  ...product,
+  description: product.shortDesc || "",
+  category: deriveCategory(product),
+  application: parseApplications(product.specs?.Application),
+}));
+
+export const PRODUCTS = products;
+export default products;
+

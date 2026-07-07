@@ -1,0 +1,79 @@
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
+import ScrollToTop from "./components/common/ScrollToTop";
+import Loader from "./components/Loader/Loader";
+import Applications from "./pages/Applications";
+import Media from "./pages/Media";
+import Video from "./pages/Videos";
+import Contact from "./pages/Contact";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import MachinePage from "./pages/MachinePage";
+import AllMachines from "./pages/AllMachines";
+import ProductDetail from "./pages/ProductDetail";
+import Solutions from "./pages/Solutions";
+import Projects from "./pages/Projects";
+import Brochure from "./pages/Brochure";
+import FAQ from "./pages/FAQ";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import WhatsAppButton from "./components/common/WhatsAppButton";
+// import CookieBanner from "./components/CookieBanner";
+
+const Services = () => (
+  <div className="text-white text-3xl text-center mt-20">
+    Services Page
+  </div>
+);
+
+const NotFound = () => (
+  <div className="text-white text-3xl text-center mt-20">
+    404 – Page Not Found
+  </div>
+);
+
+export default function App() {
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <div className="theme premium-surface min-h-screen flex flex-col">
+      {loading && <Loader onFinish={() => setLoading(false)} />}
+
+      {!loading && (
+        <>
+          <Navbar />
+          <ScrollToTop />
+
+          <main className="pt-20 flex-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/solutions" element={<Solutions />} />
+              <Route path="/media" element={<Media />} />
+              <Route path="/media/videos" element={<Video />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/machines" element={<AllMachines />} />
+              <Route path="/machines/:type" element={<MachinePage />} />
+              <Route path="/product/:name" element={<ProductDetail />} />
+              <Route path="/applications" element={<Applications />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/brochure" element={<Brochure />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+              {/* 404 Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+
+          <Footer />
+          {/* <CookieBanner /> */}
+          <WhatsAppButton />
+        </>
+      )}
+    </div>
+  );
+}
