@@ -91,7 +91,7 @@ const css = `
   .ct-machine-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('/Machines/Multi-Head VFFS Packaging Machine.png');
+    background-image: url('/Machines/Multi-Head VFFS Packaging Machine.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -110,7 +110,7 @@ const css = `
       position: absolute;
       top: 12%; right: -8%;
       width: 680px; height: 680px;
-      background-image: url('/Machines/Multi-Head VFFS Packaging Machine.png');
+      background-image: url('/Machines/Multi-Head VFFS Packaging Machine.webp');
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -915,7 +915,7 @@ export default function Contact() {
                   </span>
                   <div className="ct-info-text">
                     <span className="ct-info-label">Email</span>
-                    <a href="mailto:info@suntech.com" className="ct-info-value">info@suntech.com</a>
+                    <a href="mailto:sales@suntechpac.com" className="ct-info-value">sales@suntechpac.com</a>
                   </div>
                 </div>
                 <div className="ct-info-row">
